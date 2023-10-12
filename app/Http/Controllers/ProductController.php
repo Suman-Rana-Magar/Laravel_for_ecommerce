@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function create()
     {
         // $cateogires = CATE::pluck("id","name");
-        $categories = Category::get();
+        $categories = Category::orderBy('name')->get();
         return view("products.create", compact("categories"));
     }
 

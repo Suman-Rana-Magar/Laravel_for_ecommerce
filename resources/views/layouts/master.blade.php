@@ -213,7 +213,7 @@
                             $categories = App\Models\Category::orderBy('name')->get();
                             $selectedCategory = session('selectedCategory', 'Category');
                             @endphp
-                            <a id="title" href="" style="padding-top: 8px; transition: .3s;">
+                            <a id="title" style="cursor: pointer; padding-top: 8px; transition: .3s;">
                             Category
                             </a>
                             <ul style="background: #00a7c4;">
@@ -273,7 +273,7 @@
                     <img style="height: 40px; width: 40px; margin-left: 10px; border-radius: 19.5px;" src='{{asset("storage/" . Auth::user()->profile)}}' alt="Profile" title="Profile">
                 </a>
                 @else
-                <a title="Guest" style="text-decoration: none; color: black; border-radius: 50%; padding: 7px; background-color: white; margin-left: 10px;" href="{{route('users.index')}}"><i class="fa-solid fa-user" style="font-size: 25px;"></i></a>
+                <a title="Login" style="text-decoration: none; color: white; border-radius: 50%; padding: 7px; background: transparent; margin-left: 10px;" href="{{route('users.index')}}"><i class="fa-solid fa-right-to-bracket" style="font-size: 25px;"></i></a>
                 @endif
             </form>
         </div>
