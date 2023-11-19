@@ -53,6 +53,10 @@
         text-decoration: none;
     }
 
+    .navbar-nav li{
+        padding: 0 10px;
+    }
+
     #lblCartCount {
         font-size: 15px;
         background: #ff0000;

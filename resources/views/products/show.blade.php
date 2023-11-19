@@ -53,7 +53,8 @@
                     <!-- <p><s style='color: #4d2600;'>Rs.{{$product->marked_price}}</s> -{{$product->discount}}%</p> -->
                 </div>
                 <p>{{$product->description}}</p>
-                <p id='availableQuantity'>Available Quantity: {{$product->quantity}}</p>
+                @if($product->quantity > 0)
+                <p id='availableQuantity'>Available Quantity: {{ ($product->quantity ) }}</p>
                 <form action="{{route('carts.store',$product->id)}}" method="post">
                     @csrf
                     <label for='quantity'>
@@ -77,6 +78,9 @@
                     </div>
                     @endif
                 </form>
+                @else
+                <span style="color: red; font-size: 20px;">Out Of Stuck !</span>
+                @endif
             </div>
         </div>
 

@@ -165,6 +165,16 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/register', [UserController::class, 'create'])->name('users.create');
 
     Route::get('/login', [UserController::class, 'index'])->name('users.index');
+
+    Route::get('/forgot-password', [UserController::class, 'forgot_password'])->name('users.forgot_password');
+
+    Route::post('/check-email', [UserController::class, 'check_email'])->name('users.check-email');
+
+    Route::get('/check-token', [UserController::class,'enter_token'])->name('users.check-token');
+
+    Route::post('/check-token', [UserController::class, 'check_token'])->name('users.check-token');
+
+    Route::post('/reset-password/change-password', [UserController::class, 'reset_password'])->name('users.reset-password');
 });
 
 Route::get('/admin/reviews/customer-review', [AdminController::class, 'review'])->name('admin.review');
@@ -190,4 +200,4 @@ Route::get('/verity-email/{id}/{hash}', [VerificationController::class, 'verify'
 
 Route::get('/verify-email/resend/{id}', [VerificationController::class, 'resend'])->name('verification.resend');
 
-Route::get('/orders/deliver-order/{id}',[OrderController::class,'deliver'])->name('orders.deliver');
+Route::get('/orders/deliver-order/{id}', [OrderController::class, 'deliver'])->name('orders.deliver');

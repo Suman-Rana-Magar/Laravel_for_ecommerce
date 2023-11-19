@@ -38,6 +38,7 @@ class VerificationController extends Controller
         // dd($email_verification_token);
 
         $user->email_verified = 1;
+        $user->email_verification_token = null;
         $user->email_verified_at = now();
         $user->update();
 
