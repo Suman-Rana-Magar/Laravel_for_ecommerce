@@ -166,13 +166,15 @@ Route::middleware(['guest'])->group(function () {
 
     Route::get('/login', [UserController::class, 'index'])->name('users.index');
 
-    Route::get('/forgot-password', [UserController::class, 'forgot_password'])->name('users.forgot_password');
+    Route::get('/enter-email', [UserController::class, 'forgot_password'])->name('users.forgot_password');
 
     Route::post('/check-email', [UserController::class, 'check_email'])->name('users.check-email');
 
-    Route::get('/check-token', [UserController::class,'enter_token'])->name('users.check-token');
+    Route::get('/enter-token', [UserController::class,'enter_token'])->name('users.enter-token');
 
     Route::post('/check-token', [UserController::class, 'check_token'])->name('users.check-token');
+
+    Route::get('/enter-password/change-password', [UserController::class,'enter_password'])->name('users.enter-password');
 
     Route::post('/reset-password/change-password', [UserController::class, 'reset_password'])->name('users.reset-password');
 });

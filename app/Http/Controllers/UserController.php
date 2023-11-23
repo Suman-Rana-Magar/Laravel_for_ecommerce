@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Auth\Events\Registered;
-
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -228,7 +228,7 @@ class UserController extends Controller
                 $message->to($request->email);
                 $message->subject('Password Reset');
             });
-            return view('users.check_token', compact('email'));
+            return redirect()->route('users.enter-token')->with('email',$request->email);
         }
         $forgot_pass->save();
 
@@ -236,17 +236,17 @@ class UserController extends Controller
             $message->to($request->email);
             $message->subject('Password Reset');
         });
-        return view('users.check_token', compact('email'));
+
+        return redirect()->route('users.enter-token')->with('email',$request->email);
     }
 
     public function enter_token()
     {
-        return view('users.check_token');
+        $email=Session::get('email');
+        return view('users.check_token',compact('email'));
     }
     public function check_token(Request $request)
     {
-        $email = $request->email;
-        $token = $request->token;
         $validate = Validator::make(
             $request->all(),
             [
@@ -258,27 +258,27 @@ class UserController extends Controller
                 'token.required' => 'Please enter the token !',
             ],
         );
-        // dd($request->all());
         if ($validate->fails()) {
-            return Redirect::back()->withErrors($validate);
-            // return Redirect::route('users.check-token',compact('email','token'))->withErrors($validate);
+            return Redirect::back()->withErrors($validate)->withInput($request->input());
         }
         $emailExist = PasswordReset::where('email', $request->email)->where('token', $request->token)->first();
         if (!$emailExist) {
-            return Redirect::back()->withErrors($validate);
-            // return Redirect::route('users.check-token', compact('email', 'token'))->withErrors($validate);
+            return Redirect::back()->withErrors(['token'=>'Token didn\'t match, Please enter correct token'])->withInput($request->input());
         }
-        return response()->json([
-            'success' => 'Now, You can change your password !',
-        ], 200);
+        return Redirect::route('users.enter-password')->with('email',$request->email);
+    }
+
+    public function enter_password()
+    {
+        $email=Session::get('email');
+        return view('users.reset_password',compact('email'));
     }
 
     public function reset_password(Request $request)
     {
-        // dd($request->all(),$email,$token);
-        $validate = Validator::make($request->all(), [
+        $validate = Validator::make($request->all(),[
             'email' => 'required|exists:users',
-            'new_password' => [
+            'password' => [
                 'required',
                 \Illuminate\Validation\Rules\Password::min(6)
                     ->numbers()
@@ -287,28 +287,21 @@ class UserController extends Controller
                     ->symbols()
 
             ],
-            'confirm_new_password' => 'required|same:new_password',
+            'confirm_password' => 'required|same:password',
         ]);
         if ($validate->fails()) {
-            return response()->json([
-                'error' => $validate->errors(),
-            ], 403);
+            return Redirect::back()->withErrors($validate)->withInput($request->input());
         }
 
         $reset_pass = PasswordReset::where('email', $request->email)->where('token', '!=', null)->first();
         if (!$reset_pass) {
-
-            return response()->json([
-                'error' => 'Password Already Reseted !',
-            ], 403);
+            return Redirect::back()->with('error','Password Already Reseted !');
         }
         $user = User::where('email', '=', $request->email)->first();
-        $user->password = $request->new_password;
+        $user->password = $request->password;
         $user->update();
         $reset_pass->token = null;
         $reset_pass->update();
-        return response()->json([
-            'success' => 'Your password have reseted successfully !',
-        ], 200);
+        return Redirect::route('users.index')->with('success','Your Password Reseted Successfully, Please Try Logging In');
     }
 }

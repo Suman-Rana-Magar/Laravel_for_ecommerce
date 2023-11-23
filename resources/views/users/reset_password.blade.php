@@ -11,6 +11,7 @@
     <meta name="description" content="Volt Pro is a Premium Bootstrap 5 Admin Dashboard featuring over 800 components, 10+ plugins and 20 example pages using Vanilla JS.">
     <meta name="keywords" content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, themesberg, themesberg dashboard, themesberg admin dashboard" />
     <link rel="canonical" href="https://themesberg.com/product/admin-dashboard/volt-premium-bootstrap-5-dashboard">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -49,6 +50,12 @@
         body {
             background-color: #63cee0;
         }
+
+        .eye-icon {
+            margin-top: 5px;
+            padding-left: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -72,24 +79,37 @@
                     </p>
                     <div class="col-12 d-flex align-items-center justify-content-center">
                         <div class="signin-inner my-3 my-lg-0 bg-white shadow border-0 rounded p-4 p-lg-5 w-100 fmxw-500">
-                            <h1 class="h3">Token Sent To Your Email</h1>
-                            <p class="mb-4">We have sent a 6 digit code to your email "{{ isset($email) ? $email : old('email') }}", enter that code in following field.</p>
-                            <form action="{{route('users.check-token')}}" method="post">
+                            <h1 class="h3">Time To Reset Your Password</h1>
+                            <p class="mb-4">Reset your password and make it stronger and easy to remember.</p>
+                            <form action="{{route('users.reset-password')}}" method="post">
                                 @csrf
-                                <input type="email" id="email" name="email" value="{{ isset($email) ? $email : old('email') }}" hidden>
+                                <input type="email" id="email" name="email" hidden value="{{ isset($email) ? $email : old('email') }}">
                                 <div class="mb-4">
-                                    <label for="token">Your Code</label>
+                                    <label for="password2">New Password</label>
                                     <div class="input-group">
-                                        <input type="number" name="token" value="{{ old('token')}}" class="form-control @error ('token') is-invalid @enderror" id="token" placeholder="Enter 6 digit code here" required>
-                                        @if($errors->any())
+                                        <input type="password" name="password" value="{{ old('password')}}" class="form-control @error ('password') is-invalid @enderror" id="password2" value="{{old('password')}}" placeholder="Enter Your New Pasword" required>
+                                        <i class="bi bi-eye-slash eye-icon" id="eye2"></i>
+                                        @error('password')
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{$errors->first()}}</strong>
+                                            <strong>{{ $message }}</strong>
                                         </span>
-                                        @endif
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="password3">Confirm Password</label>
+                                    <div class="input-group">
+                                        <input type="password" name="confirm_password" value="{{ old('confirm_password')}}" class="form-control @error ('confirm_password') is-invalid @enderror" id="password3" value="{{old('confirm_password')}}" placeholder="Re-Enter Your New Password" required>
+                                        <i class="bi bi-eye-slash eye-icon" id="eye3"></i>
+                                        @error('confirm_password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="d-grid">
-                                    <button type="submit" class="btn btn-gray-800">Recover password</button>
+                                    <button type="submit" class="btn btn-gray-800">Reset password</button>
                                 </div>
                             </form>
                         </div>
@@ -98,6 +118,8 @@
             </div>
         </section>
     </main>
+    <script src="{{asset('js/reg-pass.js')}}"></script>
+    <script src="{{asset('js/reg-con-pass.js')}}"></script>
 </body>
 
 </html>

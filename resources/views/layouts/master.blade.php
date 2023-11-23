@@ -20,16 +20,30 @@
     body {
         /* background: linear-gradient(to right, #c04848, #480048); */
         background-color: #63cee0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        margin: 0;
     }
 
-    .navbar
-    {
+    .foot {
+        padding: 20px;
+        background-color: #3A3B3C;
+        color: white;
+        margin-top: auto;
+        position: sticky;
+        bottom: 0;
+        margin-top: auto;
+    }
+
+    .navbar {
         background-color: #00a7c4;
     }
 
     nav {
         /* background: linear-gradient(to bottom, #c04848, #480048); */
         background: transparent;
+        /* margin-bottom: auto; */
     }
 
     .nav-link {
@@ -53,8 +67,8 @@
         text-decoration: none;
     }
 
-    .navbar-nav li{
-        padding: 0 10px;
+    .navbar-nav li {
+        padding-left: 20px;
     }
 
     #lblCartCount {
@@ -107,8 +121,7 @@
         color: #ba07f5;
     }
 
-    .logo .all
-    {
+    .logo .all {
         text-shadow: 2px 2px 2px #21739c;
     }
 
@@ -205,12 +218,12 @@
                 <h2 class="all" id="three">ss</h2>
             </div>
         </a>
-        <div style="margin-left: 250px;" class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li>
+                <!-- <li>
                     <a style="color: white;" class="nav-link" href="{{route('products.index')}}">Home</a>
-                </li>
-                <li style="z-index: 1;">
+                </li> -->
+                <li style="z-index: 1; padding: 0; margin: 0;">
                     <ul class="nav">
                         <li>
                             @php
@@ -218,7 +231,7 @@
                             $selectedCategory = session('selectedCategory', 'Category');
                             @endphp
                             <a id="title" style="cursor: pointer; padding-top: 8px; transition: .3s;">
-                            Category
+                                Category
                             </a>
                             <ul style="background: #00a7c4;">
                                 @foreach($categories as $category)
@@ -236,19 +249,21 @@
                         </li>
                     </ul>
                 </li>
-                <li>
+                <!-- <li>
                     <a style="color: white;" class="nav-link" href="#">About Us</a>
                 </li>
                 <li>
                     <a style="color: white;" class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Our Services
                     </a>
-                </li>
-                <li>
+                </li> -->
+                <!-- <li>
                     <a style="color: white;" class="nav-link" href="#">Contact Us</a>
-                </li>
+                </li> -->
             </ul>
             <form style="margin-right: 20px;" class="form-inline my-2 my-lg-0" method="get" action="{{route('products.search')}}">
+                <input class="form-control mr-sm-2" name="search" type="search" placeholder="Search Product Here" aria-label="Search" style="width: 1000px;" value="{{ Request::get('search') }}">
+                <button style="padding: 8px; margin-right: 20px;" class="btn btn-info" type="submit"><i style="font-size: 20px;" class="fa-solid fa-magnifying-glass"></i></button>
                 <ul class="navbar-nav mr-auto">
                     <li>
                         @php
@@ -270,14 +285,13 @@
                     </li>
                 </ul>
 
-                <input class="form-control mr-sm-2" name="search" type="search" placeholder="Search Product Here" aria-label="Search" value="{{ Request::get('search') }}">
-                <button style="padding: 8px;" class="btn btn-info" type="submit"><i style="font-size: 20px;" class="fa-solid fa-magnifying-glass"></i></button>
+
                 @if(Auth::user())
                 <a href="{{route('users.show')}}">
-                    <img style="height: 40px; width: 40px; margin-left: 10px; border-radius: 19.5px;" src='{{asset("storage/" . Auth::user()->profile)}}' alt="Profile" title="Profile">
+                    <img style="height: 40px; width: 40px; border-radius: 19.5px;" src='{{asset("storage/" . Auth::user()->profile)}}' alt="Profile" title="Profile">
                 </a>
                 @else
-                <a title="Login" style="text-decoration: none; color: white; border-radius: 50%; padding: 7px; background: transparent; margin-left: 10px;" href="{{route('users.index')}}"><i class="fa-solid fa-right-to-bracket" style="font-size: 25px;"></i></a>
+                <a title="Login" style="text-decoration: none; color: white; border-radius: 50%; padding: 7px; background: transparent;" href="{{route('users.index')}}"><i class="fa-solid fa-right-to-bracket" style="font-size: 25px;"></i></a>
                 @endif
             </form>
         </div>
