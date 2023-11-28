@@ -36,7 +36,14 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'image' => 'required|file|mimes:jpg,png,jpeg,gif',
-            'password' => 'required|confirmed|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
+            'password' => [
+                'required','confirmed',
+                \Illuminate\Validation\Rules\Password::min(6)
+                    ->numbers()
+                    ->letters()
+                    ->mixedCase()
+                    ->symbols()
+            ]
         ]);
         $user = new User();
         $user->name = $validated['name'];
@@ -179,11 +186,19 @@ class UserController extends Controller
     {
         $validated = $request->validate([
             'oldPassword' => 'required',
-            'newPassword' => 'required|confirmed|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
+            'newPassword' => [
+                'required','confirmed',
+                \Illuminate\Validation\Rules\Password::min(6)
+                    ->numbers()
+                    ->letters()
+                    ->mixedCase()
+                    ->symbols()
+
+            ],
         ]);
         $user = User::where('id', $id)->first();
         if (!Hash::check($validated['oldPassword'], Auth::user()->password)) {
-            return back()->withErrors(["oldPassword" => "Old Password Doesn't match!"]);
+            return back()->withErrors(["oldPassword" => "Old Password Doesn't match!"])->withInput($request->input());
         }
         $user->password = Hash::make($validated['newPassword']);
         $user->update();
