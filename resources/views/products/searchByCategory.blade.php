@@ -57,7 +57,7 @@
                 <img class='img' src='{{asset("storage/" . $product->image)}}' alt='{{$product->title}}'>
             </div>
             <div class='card-body' style='height: 200px; width: auto; '>
-                <h5 style='margin-top: 0px; margin-bottom: 3px;'>{{Illuminate\Support\Str::limit($product->title, 22)}}</h5>
+                <h5 style='margin-top: 0px; margin-bottom: 3px;'>{{Illuminate\Support\Str::limit($product->title, 20)}}</h5>
                 <div style='margin-top: 0; height:50px; width: auto; '>
                     <p style='margin-top: 0; margin-bottom: 3px;'>{{Illuminate\Support\Str::limit($product->description, 50)}}</p>
                 </div>

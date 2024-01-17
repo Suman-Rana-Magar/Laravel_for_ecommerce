@@ -22,7 +22,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::paginate(10);
+        $products = Product::paginate(20);
         // $products = Product::get()->shuffle();
         return view('products.index', compact('products'));
     }
@@ -150,13 +150,13 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         $search = $request->search;
-        $searchedProducts = Product::where('keywords','LIKE',"%$search%")->orWhere('title','LIKE',"%$search%")->paginate(10);
+        $searchedProducts = Product::where('keywords','LIKE',"%$search%")->orWhere('title','LIKE',"%$search%")->paginate(20);
         return view('products.search',compact('searchedProducts','search'));
     }
 
     public function searchByCategory($id)
     {
-        $products = Product::where('category',$id)->paginate(10);
+        $products = Product::where('category',$id)->paginate(20);
         $get = Category::where('id',$id)->first();
         $category = \Illuminate\Support\Str::ucfirst($get->name);
         return view('products.searchByCategory',compact('products','category'));

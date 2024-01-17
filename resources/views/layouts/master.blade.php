@@ -31,7 +31,7 @@
         background-color: #3A3B3C;
         color: white;
         margin-top: auto;
-        position: sticky;
+        position: relative;
         bottom: 0;
         margin-top: auto;
     }
