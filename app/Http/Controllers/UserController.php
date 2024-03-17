@@ -89,6 +89,7 @@ class UserController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
+        dd($check);
         if (Auth::attempt($check)) {
             $user = Auth::user();
             $verified = $user->email_verified;
